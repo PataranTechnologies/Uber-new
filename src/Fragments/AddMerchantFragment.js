@@ -311,7 +311,21 @@ console.log(state)
          })
 */
 
+console.log(fd.get("menu_image"))
+        fd.delete("menu_image")
+        
+        for (var i in this.state.menu_image)
+        {
+          fd.append("menu_image",this.state.menu_image[i]);
+        }
+        console.log(fd.getAll("menu_image"))
 
+        fd.delete("restaurant_image")
+        
+        for (var i in this.state.restaurant_image)
+        {
+          fd.append("restaurant_image",this.state.restaurant_image[i]);
+        }
     
     let url = 'https://sipcityapi.mobileprogramming.net/admin/restaurant-signup';
     let h = new Headers();
@@ -883,17 +897,17 @@ console.log(state)
             onChange={e => {
               if (e.target.files && e.target.files[0]) {
 
-
                 console.log(e.target.files);
-
-                if(e.target.files.length>5)
+                let restaurant_image = [...state.restaurant_image]
+                if(restaurant_image.length+e.target.files.length>5)
                 {
                     alert(`Max 5 Images are Allowed`);
                     e.preventDefault();
-                    let restaurant_image = [];
+                    
 
-                    for(var i=0;i<5;i++)
+                    for(var i=0;i<5-state.restaurant_image.length;i++)
                     {
+                      console.log(i)
                     restaurant_image.push(e.target.files[i])
                     }
                     setState({
@@ -904,7 +918,7 @@ console.log(state)
                 }
 
 
-                let restaurant_image = [];
+               
 
                 for(var i=0;i<e.target.files.length;i++)
                 {
@@ -954,14 +968,17 @@ console.log(state)
             onChange={e => {
               if (e.target.files && e.target.files[0]) {
 
+                let menu_image = [...state.menu_image];
                 console.log(e.target.files);
-                if(e.target.files.length>5)
+                if(menu_image.length+e.target.files.length>5)
                 {
                     alert(`Max 5 Images are Allowed`);
                     e.preventDefault();
-                    let menu_image = state.menu_image;
-                for(var i=0;i<5;i++)
+                  
+                for(var i=0;i<5-state.menu_image.length;i++)
                 {
+                  console.log(i+"  "+(5-state.menu_image.length))
+
                 menu_image.push(e.target.files[i])
                 }
                 setState({
@@ -970,7 +987,7 @@ console.log(state)
                 })
                     return;
                 }
-                let menu_image = state.menu_image;
+              
                 for(var i=0;i<e.target.files.length;i++)
                 {
                 menu_image.push(e.target.files[i])
@@ -979,7 +996,6 @@ console.log(state)
                   ...state,
                   menu_image,
                 })
-
                 console.log(state);
               }
             }}
