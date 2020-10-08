@@ -1,0 +1,49 @@
+.submitButton{margin-left: 1%;}
+
+
+.delButton
+{
+    position: relative;
+    top: -48px;
+
+    right:24px;
+
+}
+
+.AddMerchantmainnew
+{
+    overflow-y: auto;
+    overflow-x: hidden;
+    height:98vh;
+    margin: 10px;
+    padding: 10px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+  
+}
+
+.containeradd
+{
+    background-color: #2e87ac;
+
+    overflow: hidden;
+}
+
+.imageadd
+{
+    width: 120%;
+    height: 100vh;
+}
+
+.passinput
+{
+   
+}
+
+
+
+   .term
+   {
+       color: blue;
+   }
