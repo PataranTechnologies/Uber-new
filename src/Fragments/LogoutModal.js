@@ -11,7 +11,7 @@ export function LogoutModel(props) {
     return (
   
         <Modal
-        className='modal-dialog'
+        className='modal1'
           show={props.show}
           onHide={()=>props.onNoClick()}
         >

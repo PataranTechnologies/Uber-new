@@ -13,7 +13,11 @@
     flex: .3;
 
 }
-
+.modal-dialog
+{
+    align-self: center;
+    
+}
 
 .header
 {
@@ -34,8 +38,9 @@ div.fade.in.modal {
     display:flex 
   }
   
-  .modal-dialog {
-    margin-top: 48%;
+  .modal1 {
+    margin-top: 20%;
+    margin-left: 40%;
     margin-bottom: 50%;
   }
   ::-webkit-scrollbar {display:none;}

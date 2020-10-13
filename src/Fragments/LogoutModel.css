@@ -13,3 +13,8 @@
     flex: 1;
 
 }
+.modal-dialog
+{
+    align-self: center;
+    
+}

@@ -10,7 +10,7 @@ export function TermModel(props) {
     return (
   
        < div
-        className='modal'
+        className='modal2'
           
         >
        
