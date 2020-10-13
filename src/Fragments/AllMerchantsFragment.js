@@ -344,7 +344,7 @@ buttonText="EXCEL" />
                                         }
                                     }).map((item, i) =>
 
-                                        <div className="flex-container" keys={i}>
+                                        <div className="flex" keys={i}>
                                             <div className=''><img src={item.restaurant_images[0]} className="image" alt="rest" /></div>
                                             <div className="rest">
                                                 <p className="restName">{item.restaurant_name}</p>

@@ -314,18 +314,24 @@ console.log(state)
 console.log(fd.get("menu_image"))
         fd.delete("menu_image")
         
-        for (var i in this.state.menu_image)
+        for (var i in state.menu_image)
         {
-          fd.append("menu_image",this.state.menu_image[i]);
+          fd.append("menu_image",state.menu_image[i]);
         }
         console.log(fd.getAll("menu_image"))
 
         fd.delete("restaurant_image")
         
-        for (var i in this.state.restaurant_image)
+        for (var i in state.restaurant_image)
         {
-          fd.append("restaurant_image",this.state.restaurant_image[i]);
+          fd.append("restaurant_image",state.restaurant_image[i]);
         }
+
+
+
+        fd.append('restaurant_category',"veg");
+        fd.append("latitude",state.latitude);
+        fd.append("longitude",state.longitude)
     
     let url = 'https://sipcityapi.mobileprogramming.net/admin/restaurant-signup';
     let h = new Headers();

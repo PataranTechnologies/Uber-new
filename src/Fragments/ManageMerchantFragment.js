@@ -236,7 +236,7 @@ export class ManageMerchantFragment extends Component {
         {
           fd.append("restaurant_image",this.state.restaurant_image[i]);
         }
-       
+        fd.append('restaurant_category',"veg");
        // fd.set("restaurant_image",this.state.restaurant_images);
     //fd.set("menu_image",this.state.menu_images);
         let req = new Request(url, {
