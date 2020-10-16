@@ -4,6 +4,7 @@ import { Button } from 'react-bootstrap';
 import Carousel from 'react-bootstrap/Carousel';
 import sidenav from "../Images/sidenav.png";
 import buttonMain from "../Images/buttonMain.png";
+import './viewmer.css'
 
 
 export class ViewMerchantFragment extends Component {
@@ -36,6 +37,7 @@ export class ViewMerchantFragment extends Component {
     }
     componentDidMount() {
         console.log("success");
+        document.getElementsByClassName('loadmodal')[0].style.display='block';
         /*console.log(window.location.href);*/
         const url = window.location.href;
         const id = this.props.id;
@@ -67,6 +69,8 @@ export class ViewMerchantFragment extends Component {
                 this.setState({ dinner_time_close: resp.dinner_time_close });
                 this.setState({ restaurant_images: resp.restaurant_images });
                 this.setState({ menu_images: resp.menu_images });
+
+                document.getElementsByClassName('loadmodal')[0].style.display='none';
             })
         })
     }
@@ -91,6 +95,7 @@ export class ViewMerchantFragment extends Component {
     render() {
         return (
             <div className="viewPageMain">
+
 
 
                 {/*  <div className="sidePannel">
@@ -126,41 +131,22 @@ export class ViewMerchantFragment extends Component {
                     <button onClick={() => { this.props.back() }} className="backToDashboard">Back</button><br /><br />
                     < div >
                         <Carousel className="carousel">
-                            <Carousel.Item>
-                                <img
-                                    className="viewImage1"
-                                    src={this.state.restaurant_images[0]?.image}
-                                    alt="First slide"
-                                />
-                            </Carousel.Item>
-                            <Carousel.Item>
-                                <img
-                                    className="viewImage1"
-                                    src={this.state.restaurant_images[1]?.image}
-                                    alt="second slide"
-                                />
-                            </Carousel.Item>
-                            <Carousel.Item>
-                                <img
-                                    className="viewImage1"
-                                    src={this.state.restaurant_images[2]?.image}
-                                    alt="Third slide"
-                                />
-                            </Carousel.Item>
-                            <Carousel.Item>
-                                <img
-                                    className="viewImage1"
-                                    src={this.state.restaurant_images[3]?.image}
-                                    alt="fourth slide"
-                                />
-                            </Carousel.Item>
-                            <Carousel.Item>
-                                <img
-                                    className="viewImage1"
-                                    src={this.state.restaurant_images[4]?.image}
-                                    alt="fifth slide"
-                                />
-                            </Carousel.Item>
+
+                            {
+                                this.state.restaurant_images.map((imageobj)=>(
+
+                                    <Carousel.Item>
+                                    <img
+                                        className="viewImage1"
+                                        src={imageobj?.image}
+                                        
+                                    />
+                                </Carousel.Item>
+    
+                                ))
+
+                            }
+
                         </Carousel>
                     </div >
                     <div className="viewMain">
@@ -195,6 +181,7 @@ export class ViewMerchantFragment extends Component {
                     <br /><br /><br />
 
                 </div >
+                <div class="loadmodal">  <div class="loader"></div> </div>
             </div>
         )
     }

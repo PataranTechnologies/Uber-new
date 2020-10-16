@@ -37,13 +37,9 @@ function App() {
         <Route path="/AddNewMerchant"  >
           <Dashboard fragment='ADD_MERCHANT' />
         </Route>
-        <Route path="/forgotPassword"  >
-        <Dashboard fragment='' />
-        </Route>
+        <Route path="/forgotPassword" component={forgotPassword} />
         <Route path="/enterOtp" component={enterOtp} />
-        <Route path="/changePassword"  >
-        <Dashboard fragment='RESET_PASSWORD' />
-        </Route>
+        <Route path="/changePassword" component={changePassword} />
         <Route path="/ResetPassword"  >
         <Dashboard fragment='RESET_PASSWORD' />
         </Route>

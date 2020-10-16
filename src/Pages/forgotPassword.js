@@ -21,6 +21,11 @@ class forgotPassword extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
+    if(!this.state.email)
+    {
+      alert("Please Provide Email")
+      return
+    }
 
     const email = {
       email: this.state.email

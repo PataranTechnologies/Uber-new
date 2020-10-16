@@ -8,7 +8,7 @@ class enterOtp extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      verification_code: " ",
+      verification_code: "",
       redirect: false,
     };
     console.log("otp empty");
@@ -19,6 +19,16 @@ class enterOtp extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
+    if(!this.state.verification_code)
+    {
+      alert("Please Enter Otp");
+      return;
+    }
+    if(this.state.verification_code.length<6)
+    {
+      alert("Otp should be minimum 6 digit long")
+      return;
+    }
     const verification_code = {
       verification_code: this.state.verification_code
     }

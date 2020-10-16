@@ -3,16 +3,34 @@ import { Container, Box, TextField } from "@material-ui/core";
 import logo from "../Images/logo.png";
 import axios from "axios";
 import { Form, Col, Button } from 'react-bootstrap';
-
+import { RemoveRedEye } from '@material-ui/icons';
+import { InputAdornment, withStyles } from '@material-ui/core';
 class changePassword extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      new_password: "",
+     
       redirect: false,
+      new_password: "",
+      new_password_confirm:'',
+      passwordIsMasked: true,
+      passwordIsMasked1: true,
       
     }
   }
+  togglePasswordMask = () => {
+    this.setState(prevState => ({
+      passwordIsMasked: !prevState.passwordIsMasked,
+    }));
+  };
+
+togglePasswordMask1 = () => {
+    this.setState(prevState => ({
+      passwordIsMasked1: !prevState.passwordIsMasked1,
+    }));
+  };
+
+
   dataChange(ev) {
     this.setState({
       [ev.target.name]: ev.target.value
@@ -22,9 +40,31 @@ class changePassword extends Component {
   }
   postData(ev) {
     ev.preventDefault()
+    if(!this.state.new_password)
+    {
+      alert("Please Enter Password")
+      return 
+    }
 
+    var re = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
+    if(!re.test(this.state.new_password))
+    {
+      alert("Password should contain one lower case letter ,One upper Case letter ,one number,and atlease 6 character long")
+      return;
 
-    let new_password = this.state.new_password
+    }
+    if(!this.state.new_password_confirm)
+    {
+      alert("Please Confirm Password")
+      return;
+    }
+    if(this.state.new_password != this.state.new_password_confirm)
+    {
+      alert("Password Does not match")
+      return;
+    }
+
+  let new_password = this.state.new_password
 
     this.setState({
       redirect: true
@@ -93,7 +133,28 @@ class changePassword extends Component {
               <Form.Group as={Col} controlId="new_password">
                 <Col xs={6}>
                   <Form.Label>Enter Verification Code</Form.Label>
-                  <Form.Control type="password" required name="verification_code" value={this.state.name} onChange={this.dataChange.bind(this)} />
+                  <TextField
+              className="text"
+              label=""
+             
+              id="outlined-size-small"
+              defaultValue=""
+              variant="outlined"
+              size="small"
+              name="verification_code"
+              id="password"
+              value={this.state.name}
+              autoComplete="password"
+              onChange={this.dataChange.bind(this)}
+              required
+              title="Password must contain at least 6 characters, including UPPER/lowercase and numbers."
+
+              type={ 'password' }
+              {...this.props}
+            
+
+            />
+                  
                 </Col>
               </Form.Group>
             </Form.Row>
@@ -101,22 +162,76 @@ class changePassword extends Component {
               <Form.Group as={Col} controlId="new_password">
                 <Col xs={6}>
                   <Form.Label>Enter New Password</Form.Label>
-                  <Form.Control type="password" required name="new_password" value={this.state.name} onChange={this.dataChange.bind(this)} />
+                  <TextField
+              className="text"
+              label=""
+              pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}"
+              id="outlined-size-small"
+              defaultValue=""
+              variant="outlined"
+              size="small"
+              name="password"
+              id="password"
+              autoComplete="password"
+              onChange={(e)=>{this.setState({new_password:e.target.value})}}
+              required
+              title="Password must contain at least 6 characters, including UPPER/lowercase and numbers."
+              type={this.state.passwordIsMasked ? 'password' : 'text'}
+              {...this.props}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <RemoveRedEye
+                      className='onhover'
+                      onClick={this.togglePasswordMask} />
+                  </InputAdornment>
+                ),
+              }}
+
+            />
+            
                 </Col>
               </Form.Group>
             </Form.Row>
-            <br />
+           
             <Form.Row>
               <Form.Group as={Col} controlId="new_password">
                 <Col xs={6}>
                   <Form.Label>Confirm Password</Form.Label>
-                  <Form.Control type="password" required name="new_password" value={this.state.name} onChange={this.dataChange.bind(this)} />
+                  <TextField
+              className="text"
+              label=""
+              pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}"
+              id="outlined-size-small"
+              defaultValue=""
+              variant="outlined"
+              size="small"
+              name="password"
+              id="password"
+              autoComplete="current-password"
+              onChange={(e)=>{this.setState({new_password_confirm:e.target.value})}}
+              required
+
+              type={this.state.passwordIsMasked1 ? 'password' : 'text'}
+              {...this.props}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <RemoveRedEye
+                      className='onhover'
+                      onClick={this.togglePasswordMask1} />
+                  </InputAdornment>
+                ),
+              }}
+
+            />
+            
                 </Col>
               </Form.Group>
             </Form.Row>
             <br />
             <Form.Row>
-              <Col xs={3}>
+              <Col xs={6}>
                 <button type="submit" className="doneButton" onSubmit={this.postData}>
                   Done
                 </button>

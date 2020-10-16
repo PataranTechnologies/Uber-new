@@ -49,6 +49,8 @@ const AddMerchantFragment = (props) => {
 
   const [predictions, setPrediction] = useState([])
   const [address, setAddress] = useState(null);
+  const [isError,setIsError]=useState(false);
+  const [errObj,setErrObj]=useState({});
 
   const validationSchema = yup.object().shape({
     restaurant_name: yup
@@ -67,12 +69,6 @@ const AddMerchantFragment = (props) => {
       .string()
       .required("Please Enter your Address")
       .min(3),
-    latitude: yup
-      .string()
-      .required("Please Enter your latitude"),
-    longitude: yup
-      .string()
-      .required("Please Enter your longitude"),
     contact_person_name: yup
       .string()
       .required("Please Contact person Name")
@@ -92,8 +88,8 @@ const AddMerchantFragment = (props) => {
     mobile: yup
       .string()
       .required("Please Provide Your Phone No")
-      .min(9)
-      .max(11)
+      .min(10)
+      .max(10)
     ,
     information: yup.string().required("Please Enter Information.")
 
@@ -154,31 +150,9 @@ const AddMerchantFragment = (props) => {
 
 
   const formik = useFormik({
-    initialValues: {
-      restaurant_name: '',
-      email: '',
-      designation: 'Owner',
-      address: '',
-      city: '',
-      state: 'Select State',
-      pincode: '',
-      contact_person_name: '',
-      mobile: '',
-      information: '',
-      restaurant_image: [],
-      menu_image: [],
-      lunch_time_open: '00:00 ',
-      lunch_time_close: '00:00 ',
-      dinner_time_open: '00:00 ',
-      dinner_time_close: '01:00 ',
-      view_type: 0,
-      latitude: "",
-      longitude: "",
-      redirect: false,
-  
-    },
+    initialValues:state,
     validationSchema: validationSchema,
-    onSubmit: postData,
+    onSubmit: ()=>postData(),
   });
 
 
@@ -221,6 +195,30 @@ const AddMerchantFragment = (props) => {
   }
 
 
+  const isDataValid=()=>{
+   let valid=true
+   
+   if(/^\d+$/.test(state.pincode)==false)
+   {
+    setErrObj({...errObj,pincode:"pincode Should containes only digits"})
+    valid=false;
+    
+   }
+    if(state.mobile.length>10 || state.mobile.length<10)
+    {
+    setErrObj({...errObj,mobile:"Length Of phone Number Should be Exactly 10"})
+    valid=false;
+    }
+
+    if(/^\d+$/.test(state.mobile)==false)
+   {
+    setErrObj({...errObj,mobile:"phone Number Should containes only digits"})
+    valid=false;
+    
+   }
+return valid
+  }
+
 
 
 
@@ -229,6 +227,14 @@ const AddMerchantFragment = (props) => {
     ev.preventDefault();
 
 
+    if(!isDataValid())
+    {
+      setIsError(true)
+    return;
+
+    }
+
+    setIsError(false)
 
     alert("hello");
 console.log(state)
@@ -422,81 +428,91 @@ console.log(fd.get("menu_image"))
       }
     }
     let ele = document.getElementById("suggestions");
+   
+    
+    fetch('https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/autocomplete/json?input=' + encodeURIComponent(text) + '&radius=1000&key=AIzaSyDm61dTqXzF337Y-VsFFDH0gJTFTMQoUxU').then(data=>data.json()).then((data)=>{
 
-    axios({
-      method: 'get',
-      headers: { 'Access-Control-Allow-Origin': '*', },
-      url: 'https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/autocomplete/json?input=' + encodeURIComponent(text) + '&radius=1000&key=AIzaSyDm61dTqXzF337Y-VsFFDH0gJTFTMQoUxU',
-    }).then((data) => {
-
-      ele.innerHTML = "";
-
-      console.log(data.data.predictions)
-
-
-      console.log("local")
-
-      let pred = data.data.predictions
-
-      setPrediction(pred);
-
-      for (var i = 0; i < pred.length; i++) {
-        if (i > 5) {
-          break
-        }
-        let op = document.createElement('option');
-        op.value = pred[i].description;
-        ele.append(op);
+      if(!data)
+      {
+        return;
       }
-    }).catch((error => {
-      console.log(error);
-    }))
+  
+      ele.innerHTML = "";
+  
+        console.log(data)
+  
+  
+        console.log("local")
+  
+        let pred = data.predictions
+  
+        setPrediction(pred);
+  
+        for (var i = 0; i < pred.length; i++) {
+          if (i > 5) {
+            break
+          }
+          let op = document.createElement('option');
+          op.value = pred[i].description;
+          ele.append(op);
+        }
+      
 
+
+    }).catch(error=>{
+      console.log(error)
+    })
+    
   }
   const onPressRowData = (rowData) => {
     let auxAddresses;
     console.log('Row Data: ',)
-    axios({
-      method: 'get',
-      headers: { 'Access-Control-Allow-Origin': '*', },
-      url: 'https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/details/json?place_id=' + encodeURIComponent(rowData.place_id) + '&fields=geometry,name,rating&key=AIzaSyDm61dTqXzF337Y-VsFFDH0gJTFTMQoUxU',
-    }).then((data) => {
-      console.log(data)
-      data = data.data;
-      console.log(data)
-      console.log('Details: ', data.result.geometry.location);
-      const { lat, lng } = data.result.geometry.location;
-      auxAddresses = {
-        format_address: rowData.description,
-        latitude: lat,
-        longitude: lng,
-      };
-      console.log(auxAddresses);
-      setAddress(auxAddresses);
+    fetch(
+      'https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/details/json?place_id=' + encodeURIComponent(rowData.place_id) + '&fields=geometry,name,rating&key=AIzaSyDm61dTqXzF337Y-VsFFDH0gJTFTMQoUxU'
+    ).then(data=>data.json()).then(data=>{
 
-      var list = rowData.description.split(",");
-      var state1 = stateList[`${list[list.length - 2].trim()}`];
+      if(!data)
+      {
+        return;
+      }
+        console.log(data)
+       
+        console.log(data)
+        console.log('Details: ', data.result.geometry.location);
+        const { lat, lng } = data.result.geometry.location;
+        auxAddresses = {
+          format_address: rowData.description,
+          latitude: lat,
+          longitude: lng,
+        };
+        console.log(auxAddresses);
+        setAddress(auxAddresses);
+  
+        var list = rowData.description.split(",");
+        var state1 = stateList[`${list[list.length - 2].trim()}`];
+  
+        var city1 = list[list.length - 3];
+  
+        setState({ ...state, latitude: lat, longitude: lng, address: rowData.description, state: state1, city: city1 })
+  
+    }).catch(error=>console.log(error))
 
-      var city1 = list[list.length - 3];
+   
 
-      setState({ ...state, latitude: lat, longitude: lng, address: rowData.description, state: state1, city: city1 })
-
-
-    }).catch(error => {
-      console.log('Error: ', error);
-    })
   }
 
   return (<div className="AddMerchantmain"><h3 className="AddMerchantHeading">Add New Merchant</h3><br />
     {/* <h6 className="HeadingBottom">Please enter Basic Info</h6> */}
 
     <Form onSubmit={postData} id="myForm" >
+
+      {console.log(formik.errors)}
       <Form.Row>
         <Col xs={2}>
           <Form.Group controlId="restaurant_name">
             <Form.Label className="label">Merchant Name</Form.Label>
-            <Form.Control type="name" placeholder="" name="restaurant_name" value={state.restaurant_name} required onChange={(e) => dataChange(e)} />
-
+            <Form.Control type="name" placeholder="" name="restaurant_name"  required onChangeText={formik.handleChange('restaurant_name')} />
+            { isError&&errObj.restaurant_name?<span style={{color:'red'}}>{errObj.restaurant_name}</span> :null }
           </Form.Group>
         </Col>
 
@@ -531,9 +547,9 @@ console.log(fd.get("menu_image"))
         <Col xs={3}>
           <Form.Group controlId="mobile">
             <Form.Label className="label">Phone Number</Form.Label>
-            <Form.Control type="value" required onChange={(e) => dataChange(e)} name="mobile" value={state.mobile} >
-
-            </Form.Control>
+            <Form.Control type="value" required onChange={(e) => dataChange(e)} name="mobile" value={state.mobile} />
+            { isError&&errObj.mobile?<span style={{color:'red'}}>{errObj.mobile}</span> :null }
+            
           </Form.Group>
         </Col>
       </Form.Row>
@@ -647,7 +663,7 @@ console.log(fd.get("menu_image"))
           <Form.Group controlId="pincode">
             <Form.Label className="label">Zipcode</Form.Label>
             <Form.Control placeholder="" required name="pincode" onChange={(e) => dataChange(e)} value={state.pincode} />
-
+            { isError&&errObj.pincode?<span style={{color:'red'}}>{errObj.pincode}</span> :null }
           </Form.Group>
         </Col>
       </Form.Row>
@@ -1017,7 +1033,7 @@ console.log(fd.get("menu_image"))
         </Form.Group>
       </Form.Row>
       <Form.Row>
-        <Button type="submit" style={{ backgroundColor: '#00c9e3' }} onSubmit={postData} >
+        <Button type="submit" style={{ backgroundColor: '#00c9e3' }}  >
           Done
           </Button>
       </Form.Row>
