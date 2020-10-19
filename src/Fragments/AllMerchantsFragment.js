@@ -10,7 +10,7 @@ import Switch from '@material-ui/core/Switch';
 import axios from "axios";
 import { createBrowserHistory } from "history";
 import { KeyboardArrowLeft, Email } from '@material-ui/icons';
-
+import ReactPaginate from 'react-paginate';
 import ToggleButton from 'react-toggle-button'
 import PropTypes from 'prop-types';
 const propTypes = {
@@ -51,7 +51,9 @@ export class AllMerchantsFragment extends Component {
             selectedItem: null,
             error: null,
             results: null,
-            search: ''
+            search: '',
+            page:0,
+            totalPages:0,
         }
     }
     handleClick = (id, status) => {
@@ -97,10 +99,12 @@ export class AllMerchantsFragment extends Component {
         }).then((response) => {
             response.json().then((result) => {
                 console.log(result.restaurants);
+                
                 localStorage.setItem("token", result.restaurants.token);
                 localStorage.setItem("restarant_id", result.restaurant_id);
                 this.setState({ restaurants: result.restaurants });
                 this.setState({ restaurant_id: result.restaurant_id });
+                this.setState({totalPages:(result.restaurants.length/6)})
             })
         })
 
@@ -330,7 +334,35 @@ buttonText="EXCEL" />
                             }
                         </tbody>
                     </Table>
+                    <div className='paga'>
+                    <ReactPaginate 
 
+                    onPageChange={(page)=>{this.setState({page:page.selected})}}
+                
+                    previousLabel={"← Previous"}
+                    nextLabel={"Next →"}
+                    breakLabel={<span className="gap">...</span>}
+                   
+                    pageRangeDisplayed={10}
+                    pageCount={this.state.totalPages}
+                   
+                    breakClassName={'page-item'}
+                    breakLinkClassName={'page-link'}
+                    containerClassName={'pagination'}
+                    pageClassName={'page-item'}
+                    pageLinkClassName={'page-link'}
+                    previousClassName={'page-item'}
+                    previousLinkClassName={'page-link'}
+                    nextClassName={'page-item'}
+                    nextLinkClassName={'page-link'}
+                    activeClassName={'active'}
+                    forcePage={this.state.page}
+         
+         
+          disabledClassName={"disabled"}
+         
+                    />
+                    </div>
                         <div className="dataTable">
                             {/* <h4>All Merchants</h4> */}
                             {
@@ -342,9 +374,12 @@ buttonText="EXCEL" />
                                         else {
                                             return false;
                                         }
-                                    }).map((item, i) =>
+                                    }).map((item, i) =>{
 
-                                        <div className="flex" keys={i}>
+                                        if(i>=(this.state.page)*6 && i<((this.state.page+1)*6))
+                                        {
+
+                                     return  <div className="flex" keys={i}>
                                             <div className=''><img src={item.restaurant_images[0]} className="image" alt="rest" /></div>
                                             <div className="rest">
                                                 <p className="restName">{item.restaurant_name}</p>
@@ -413,11 +448,40 @@ buttonText="EXCEL" />
                                             
                                             {/* <p className="fixeddate">Approved On: {item.account_approved_date} </p> */}
                                         </div>
-                                    )
+                                      }  } )
                                     :
                                     null
                             }
                         </div>
+                    </div>
+                    <div className='paga'>
+                    <ReactPaginate 
+
+                    onPageChange={(page)=>{this.setState({page:page.selected})}}
+                
+                    previousLabel={"← Previous"}
+                    nextLabel={"Next →"}
+                    breakLabel={<span className="gap">...</span>}
+                    
+                    pageRangeDisplayed={10}
+                    pageCount={this.state.totalPages}
+                   
+                    breakClassName={'page-item'}
+                    breakLinkClassName={'page-link'}
+                    containerClassName={'pagination'}
+                    pageClassName={'page-item'}
+                    pageLinkClassName={'page-link'}
+                    previousClassName={'page-item'}
+                    previousLinkClassName={'page-link'}
+                    nextClassName={'page-item'}
+                    nextLinkClassName={'page-link'}
+                    activeClassName={'active'}
+                    forcePage={this.state.page}
+         
+         
+          disabledClassName={"disabled"}
+         
+                    />
                     </div>
                 </div >
 

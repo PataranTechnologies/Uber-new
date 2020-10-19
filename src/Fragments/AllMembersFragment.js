@@ -6,7 +6,7 @@ import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import { createBrowserHistory } from "history";
-
+import ReactPaginate from 'react-paginate';
 const history = createBrowserHistory({ forceRefresh: true });
 
 export class AllMembersFragment extends Component {
@@ -17,6 +17,8 @@ export class AllMembersFragment extends Component {
             results: null,
             search: '',
             refresh: false,
+            page:0,
+            totalPages:0,
         }
     }
     searchMenbers = (text) => {
@@ -34,6 +36,7 @@ export class AllMembersFragment extends Component {
         }).then((response) => {
             response.json().then((result) => {
                 console.warn(result.results);
+                this.setState({totalPages:(result.results.length/15)})
                 this.setState({ results: result.results });
 
             })
@@ -107,6 +110,35 @@ sheet="Sheet"
 
                         </div>
                     </div>
+                    <div className='paga'>
+                    <ReactPaginate 
+
+                    onPageChange={(page)=>{this.setState({page:page.selected})}}
+                
+                    previousLabel={"← Previous"}
+                    nextLabel={"Next →"}
+                    breakLabel={<span className="gap">...</span>}
+                  
+                    pageRangeDisplayed={10}
+                    pageCount={this.state.totalPages}
+                   
+                    breakClassName={'page-item'}
+                    breakLinkClassName={'page-link'}
+                    containerClassName={'pagination'}
+                    pageClassName={'page-item'}
+                    pageLinkClassName={'page-link'}
+                    previousClassName={'page-item'}
+                    previousLinkClassName={'page-link'}
+                    nextClassName={'page-item'}
+                    nextLinkClassName={'page-link'}
+                    activeClassName={'active'}
+                    forcePage={this.state.page}
+         
+         
+          disabledClassName={"disabled"}
+         
+                    />
+                    </div>
                     <Table id='members'>
                         <thead>
                             <tr>
@@ -123,16 +155,19 @@ sheet="Sheet"
                             {
                                 this.state.results ?
                                     this.state.results.filter((item, i) => {
+                                     
                                         if (item.first_name.toLowerCase().startsWith(this.state.search.toLowerCase())) {
                                             return true;
                                         }
                                         else {
                                             return false;
                                         }
-                                    }).map((item, i) =>
+                                  
+                                    }).map((item, i) =>{
 
-
-                                        <tr>
+                                    if(i>=(this.state.page)*15 && i<((this.state.page+1)*15))
+                                    {
+                                       return <tr>
                                             <td>{i + 1}</td>
                                             <td>{item.first_name} {item.last_name}</td>
                                             <td>{item.email}</td>
@@ -141,13 +176,42 @@ sheet="Sheet"
                                             <td>{item.create_date}</td>
                                             <td>{item.subscription_status == 1 ? 'Subscribed' : 'Not Subscribed' }</td>
                                         </tr>
-                                    )
+                                    }
+                                     } )
                                     :
                                     null
                             }
                         </tbody>
                     </Table>
+                    <div className='paga'>
+                    <ReactPaginate 
 
+                    onPageChange={(page)=>{this.setState({page:page.selected})}}
+                
+                    previousLabel={"← Previous"}
+                    nextLabel={"Next →"}
+                    breakLabel={<span className="gap">...</span>}
+                   
+                    pageRangeDisplayed={10}
+                    pageCount={this.state.totalPages}
+                   
+                    breakClassName={'page-item'}
+                    breakLinkClassName={'page-link'}
+                    containerClassName={'pagination'}
+                    pageClassName={'page-item'}
+                    pageLinkClassName={'page-link'}
+                    previousClassName={'page-item'}
+                    previousLinkClassName={'page-link'}
+                    nextClassName={'page-item'}
+                    nextLinkClassName={'page-link'}
+                    activeClassName={'active'}
+                    forcePage={this.state.page}
+         
+         
+          disabledClassName={"disabled"}
+         
+                    />
+                    </div>
                 </div>
             )
         }
