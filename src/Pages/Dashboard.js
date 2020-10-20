@@ -145,8 +145,7 @@ export default withRouter(function MiniDrawer(props) {
     localStorage.setItem('token',null);
     
     this.props.history.push("/login");
-    window.location = 'https://sipcityapp.mobileprogramming.net/Login';
-  }
+    }
 
   const NoClicked = () => {
 
