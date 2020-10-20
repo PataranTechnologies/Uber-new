@@ -95,6 +95,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default withRouter(function MiniDrawer(props) {
+  if(localStorage.getItem('token'))
+    {
+      props.history.push("/login");
+      //return;
+    }
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const [fragment, setfragment] = useState(props.fragment);
@@ -103,6 +108,11 @@ export default withRouter(function MiniDrawer(props) {
   useState(()=>{
 
     setfragment(props.fragment);
+
+
+
+    
+
   },[])
 
   const loadFragment = (fragment) => {
@@ -132,7 +142,10 @@ export default withRouter(function MiniDrawer(props) {
 
 
   const YesClicked = () => {
-    window.location = 'https://sipcityapp.mobileprogramming.net/#/Login';
+    localStorage.setItem('token',null);
+    
+    this.props.history.push("/login");
+    window.location = 'https://sipcityapp.mobileprogramming.net/Login';
   }
 
   const NoClicked = () => {

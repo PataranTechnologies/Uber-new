@@ -55,11 +55,13 @@ class Login extends Component {
         this.props.setLogin(JSON.stringify(result.data.user));
         NotificationManager.success(result.data.msg);
         if (result.data.status == '200')
+        {
           this.props.history.push("/Dashboard");
-        else
+        }
+          else{
           alert("Invalid Email Id or Password");
         //  this.props.history.push("/Dashboard");
-
+          }
       })
       .catch(err => {
         if (err.response && err.response.status === 404)
