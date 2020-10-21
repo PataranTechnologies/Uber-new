@@ -17,6 +17,37 @@ class enterOtp extends Component {
     this.setState({ verification_code: event.target.value });
   }
 
+
+
+  resend = () => {
+    let email1=localStorage.getItem('email')
+    console.log(email1)
+    if(!email1)
+    {
+      alert("Please Provide Email")
+      return
+    }
+
+    const email = {
+      email:email1
+    }
+    console.log(this.state);
+
+    axios
+      .post('https://sipcityapi.mobileprogramming.net/admin/forgot', email)
+      .then(res => {
+        if(res.data.status==403)
+        {
+           alert(res.data.message)
+        }
+        else
+        {
+      
+        console.log("its working");
+        }
+      })
+  }
+
   handleSubmit = event => {
     event.preventDefault();
     if(!this.state.verification_code)
@@ -81,7 +112,7 @@ class enterOtp extends Component {
           <br />
           <br />
           <p className="resendPara">
-            if you dont receive a code!<span className="resend">Resend</span>
+            if you dont receive a code!<span onClick={()=>{this.resend()}} className="resend">Resend</span>
           </p>
           <br />
           <div className="btn">

@@ -316,7 +316,7 @@ class HomeFragment extends Component {
     const options = {
       responsive: true,
       legend: {
-        display: true
+        display: false,
       },
       type: "bar"
    

@@ -37,8 +37,16 @@ class forgotPassword extends Component {
       .then(res => {
         console.log(res.json);
         console.log(res.data);
+        if(res.data.status==403)
+        {
+           alert(res.data.message)
+        }
+        else
+        {
         this.props.history.push("/enterOtp");
+        localStorage.setItem("email",this.state.email);
         console.log("its working");
+        }
       })
   }
 
