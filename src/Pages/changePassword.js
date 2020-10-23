@@ -113,6 +113,8 @@ togglePasswordMask1 = () => {
     }
   };
   render() {
+    console.log(this.props)
+    console.log(this.state)
     return (
       <Container maxwidth="lg">
         <img src={logo} height="660px" alt="logo" />

@@ -95,10 +95,17 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default withRouter(function MiniDrawer(props) {
-  if(localStorage.getItem('token'))
+  console.log(localStorage.getItem('token'))
+  let token=localStorage.getItem('token')
+  console.log(token==null)
+  console.log(token==undefined)
+  console.log(!token)
+if(token===undefined || token===null || !token)
     {
+      console.log("if mai nahi aara")
       props.history.push("/login");
-      //return;
+    //  return ("");
+    //  return;
     }
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
@@ -142,9 +149,9 @@ export default withRouter(function MiniDrawer(props) {
 
 
   const YesClicked = () => {
-    localStorage.setItem('token',null);
+    localStorage.setItem('token',"");
     
-    this.props.history.push("/login");
+   props.history.push("/login");
     }
 
   const NoClicked = () => {

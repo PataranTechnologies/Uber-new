@@ -48,14 +48,16 @@ class Login extends Component {
       .post(" https://sipcityapi.mobileprogramming.net/admin-login", data)
       .then(result => {
         console.log(result);
-        localStorage.setItem("token", result.data.token);
-        console.log(result.data.token);
+      
 
-        localStorage.setItem("user", JSON.stringify(result.data.user));
-        this.props.setLogin(JSON.stringify(result.data.user));
-        NotificationManager.success(result.data.msg);
         if (result.data.status == '200')
         {
+          localStorage.setItem("token", result.data.token);
+          console.log(result.data.token);
+  
+          localStorage.setItem("user", JSON.stringify(result.data.user));
+          this.props.setLogin(JSON.stringify(result.data.user));
+          NotificationManager.success(result.data.msg);
           this.props.history.push("/Dashboard");
         }
           else{

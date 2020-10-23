@@ -83,10 +83,15 @@
     ]
   },
   "devDependencies": {
+    "@babel/cli": "^7.12.1",
+    "@babel/core": "^7.12.3",
     "babel-core": "^6.26.3",
+    "babel-loader": "^8.1.0",
+    "babel-preset-es2015": "^6.24.1",
     "eslint": "^6.6.0",
     "eslint-html-reporter": "^0.7.4",
     "eslint-plugin-react": "^7.20.0",
     "http-proxy-middleware": "^1.0.5"
+    
   }
 }

@@ -8,6 +8,10 @@
 {
     color: white;
 }
+.resend
+{
+    cursor: pointer;
+}
 
 .AddMerc
 {

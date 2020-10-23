@@ -104,7 +104,7 @@ export class AllMerchantsFragment extends Component {
                 localStorage.setItem("restarant_id", result.restaurant_id);
                 this.setState({ restaurants: result.restaurants });
                 this.setState({ restaurant_id: result.restaurant_id });
-                this.setState({totalPages:(result.restaurants.length/6)})
+                this.setState({totalPages:Math.ceil(result.restaurants.length/6)})
             })
         })
 
@@ -265,6 +265,24 @@ export class AllMerchantsFragment extends Component {
         return s.replace(/{(\w+)}/g, (m, p) => c[p]);
       }
 
+       filter=()=>{
+
+       let list=[];
+       list=this.state.restaurants.filter((item, i) => {
+            if (item.restaurant_name.toLowerCase().startsWith(this.state.search.toLowerCase())) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        })
+        console.log(list);
+        if(this.state.totalPages!==Math.ceil(list.length/6)){
+        this.setState({totalPages:Math.ceil(list.length/6)})
+        }
+        return list;
+
+      }
     render() {
         const { error, restaurants } = this.state;
         console.log(this.state.index, "--------------", this.state.active);
@@ -343,9 +361,12 @@ buttonText="EXCEL" />
                     nextLabel={"Next →"}
                     breakLabel={<span className="gap">...</span>}
                    
-                    pageRangeDisplayed={10}
+                    pageRangeDisplayed={0}
                     pageCount={this.state.totalPages}
-                   
+                    pageBound= {2}
+                    upperPageBound= {2}
+                    marginPagesDisplayed={1}
+                    lowerPageBound= {0}
                     breakClassName={'page-item'}
                     breakLinkClassName={'page-link'}
                     containerClassName={'pagination'}
@@ -367,14 +388,7 @@ buttonText="EXCEL" />
                             {/* <h4>All Merchants</h4> */}
                             {
                                 this.state.restaurants ?
-                                    this.state.restaurants.filter((item, i) => {
-                                        if (item.restaurant_name.toLowerCase().startsWith(this.state.search.toLowerCase())) {
-                                            return true;
-                                        }
-                                        else {
-                                            return false;
-                                        }
-                                    }).map((item, i) =>{
+                                  this.filter().map((item, i) =>{
 
                                         if(i>=(this.state.page)*6 && i<((this.state.page+1)*6))
                                         {
@@ -463,9 +477,12 @@ buttonText="EXCEL" />
                     nextLabel={"Next →"}
                     breakLabel={<span className="gap">...</span>}
                     
-                    pageRangeDisplayed={10}
+                    pageRangeDisplayed={0}
                     pageCount={this.state.totalPages}
-                   
+                    pageBound= {2}
+                    upperPageBound= {2}
+                    marginPagesDisplayed={1}
+                    lowerPageBound= {0}
                     breakClassName={'page-item'}
                     breakLinkClassName={'page-link'}
                     containerClassName={'pagination'}

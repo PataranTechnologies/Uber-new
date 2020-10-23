@@ -25,6 +25,9 @@ class enterOtp extends Component {
     if(!email1)
     {
       alert("Please Provide Email")
+      this.props.history.push(
+        '/forgotPassword',
+        )
       return
     }
 
@@ -42,7 +45,7 @@ class enterOtp extends Component {
         }
         else
         {
-      
+         console.log(res)
         console.log("its working");
         }
       })
@@ -71,10 +74,13 @@ class enterOtp extends Component {
         console.log(res.data);
         console.log(res.verification_code);
         // this.props.history.push("/changePassword");
+     
         this.props.history.push({
           pathname: '/changePassword',
           state: { verification_code : res.verification_code }
         })
+
+     
         console.log(res.verification_code);
       })
   }

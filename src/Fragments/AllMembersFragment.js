@@ -36,7 +36,9 @@ export class AllMembersFragment extends Component {
         }).then((response) => {
             response.json().then((result) => {
                 console.warn(result.results);
-                this.setState({totalPages:(result.results.length/15)})
+                let size=Math.ceil(result.results.length/15)
+                console.log(size)
+                this.setState({totalPages:size})
                 this.setState({ results: result.results });
 
             })
@@ -72,6 +74,26 @@ export class AllMembersFragment extends Component {
         doc.autoTable(content);
         doc.save("report.pdf")
     }
+    filter=()=>{
+
+        let list=[];
+        list= this.state.results.filter((item, i) => {
+                                     
+            if ((item.first_name+" "+item.last_name).toLowerCase().startsWith(this.state.search.toLowerCase())) {
+                return true;
+            }
+            else {
+                return false;
+            }
+      
+        })
+         console.log(list);
+         if(this.state.totalPages!==Math.ceil(list.length/15)){
+         this.setState({totalPages:Math.ceil(list.length/15)})
+         }
+         return list;
+ 
+       }
 
 
     render() {
@@ -119,8 +141,12 @@ sheet="Sheet"
                     nextLabel={"Next →"}
                     breakLabel={<span className="gap">...</span>}
                   
-                    pageRangeDisplayed={10}
+                    pageRangeDisplayed={0}
                     pageCount={this.state.totalPages}
+                    pageBound= {2}
+                    upperPageBound= {2}
+                    marginPagesDisplayed={1}
+                    lowerPageBound= {0}
                    
                     breakClassName={'page-item'}
                     breakLinkClassName={'page-link'}
@@ -154,16 +180,7 @@ sheet="Sheet"
                         <tbody className="tableBody">
                             {
                                 this.state.results ?
-                                    this.state.results.filter((item, i) => {
-                                     
-                                        if (item.first_name.toLowerCase().startsWith(this.state.search.toLowerCase())) {
-                                            return true;
-                                        }
-                                        else {
-                                            return false;
-                                        }
-                                  
-                                    }).map((item, i) =>{
+                                   this.filter().map((item, i) =>{
 
                                     if(i>=(this.state.page)*15 && i<((this.state.page+1)*15))
                                     {
@@ -192,8 +209,12 @@ sheet="Sheet"
                     nextLabel={"Next →"}
                     breakLabel={<span className="gap">...</span>}
                    
-                    pageRangeDisplayed={10}
+                    pageRangeDisplayed={0}
                     pageCount={this.state.totalPages}
+                    pageBound= {2}
+                    upperPageBound= {2}
+                    marginPagesDisplayed={1}
+                    lowerPageBound= {0}
                    
                     breakClassName={'page-item'}
                     breakLinkClassName={'page-link'}
