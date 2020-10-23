@@ -90,6 +90,7 @@ export class AllMembersFragment extends Component {
          console.log(list);
          if(this.state.totalPages!==Math.ceil(list.length/15)){
          this.setState({totalPages:Math.ceil(list.length/15)})
+         this.setState({page:0});
          }
          return list;
  

@@ -279,6 +279,7 @@ export class AllMerchantsFragment extends Component {
         console.log(list);
         if(this.state.totalPages!==Math.ceil(list.length/6)){
         this.setState({totalPages:Math.ceil(list.length/6)})
+        this.setState({page:0});
         }
         return list;
 
