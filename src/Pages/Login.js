@@ -13,7 +13,7 @@ import { InputAdornment, withStyles } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import { RemoveRedEye } from '@material-ui/icons';
 import PropTypes from 'prop-types';
-
+import SecurityTool from '../Utils/securityTools'
 const styles = theme => ({
   eye: {
     cursor: 'pointer',
@@ -45,7 +45,7 @@ class Login extends Component {
     const data = { email: this.state.email, password: this.state.password };
 
     axios
-      .post(" https://sipcityapi.mobileprogramming.net/admin-login", data)
+      .post(" https://sipcityapi.mobileprogramming.net/admin-login", SecurityTool.cipher(data))
       .then(result => {
         console.log(result);
       

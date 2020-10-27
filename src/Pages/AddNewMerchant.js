@@ -25,7 +25,7 @@ import { GoogleComponent } from "react-google-location";
 import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
 import CancelIcon from '@material-ui/icons/Cancel';
 import { InputAdornment, withStyles } from '@material-ui/core';
-
+import SecurityTool from '../Utils/securityTools'
 import { RemoveRedEye } from '@material-ui/icons';
 
 const AddNewMerchant = (props) => {
@@ -50,8 +50,10 @@ const AddNewMerchant = (props) => {
     latitude: "",
     longitude: "",
     redirect: false,
-    password:"",
-    website_link:""
+    
+    website_link:"",
+    password:'',
+    confirm_password:""
 
   })
 
@@ -242,6 +244,11 @@ const AddNewMerchant = (props) => {
   const postData = (ev) => {
     ev.preventDefault();
 
+    if(state.password!==state.confirm_password)
+    {
+      alert("passwords does not match");
+      return;
+    }
     let accept=document.getElementById('terms').checked;
     if(accept==false)
     {
@@ -304,6 +311,7 @@ console.log(state)
     //fd.set("menu_image",state.menu_image);
 
     fd.delete("menu_image")
+    fd.delete('confirm-password');
         
     for (var i in state.menu_image)
     {
@@ -357,7 +365,7 @@ fd.append('restaurant_category',"veg");
    // h.append('Content-Type', 'multipart/form-data');
     let req = new Request(url, {
       headers: h,
-      body: fd,
+      body: SecurityTool.cipher(fd),
       method: 'POST',
     });
     //console.log(req);
@@ -541,12 +549,13 @@ fd.append('restaurant_category',"veg");
       <Form.Row >
         <Col xs={5} >
           <Form.Group controlId="mobile">
-            <Form.Label className="label">Password</Form.Label>
-            <Form.Control
-            xs={10}
+            <Form.Label className="label">Password</Form.Label><br/>
+            
+            <TextField
+          
               className="passinput"
 
-              id="outlined-size-small"
+              
               defaultValue=""
               variant="outlined"
               size="small"
@@ -554,7 +563,8 @@ fd.append('restaurant_category',"veg");
               id="password"
               autoComplete="current-password"
               required
-
+              onChange={(e) => dataChange(e)}
+               value={state.password}
               type={passwordIsMasked ? 'password' : 'text'}
               InputProps={{
                 endAdornment: (
@@ -572,16 +582,18 @@ fd.append('restaurant_category',"veg");
           </Col>
           <Col xs={5}>
           <Form.Group controlId="mobile">
-            <Form.Label className="label">Confirm Password</Form.Label>
-            <Form.Control
-            xs={10}
+            <Form.Label className="label">Confirm Password</Form.Label><br/>
+            <TextField
+            
               className="passinput"
 
               id="outlined-size-small"
               defaultValue=""
               variant="outlined"
               size="small"
-              name="password"
+              name="confirm_password"
+              onChange={(e) => dataChange(e)}
+               value={state.confirm_password}
               id="password"
               autoComplete="current-password"
               required

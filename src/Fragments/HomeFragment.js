@@ -10,6 +10,7 @@ import './HomeFragment.css'
 import FusionCharts from "fusioncharts";
 import charts from "fusioncharts/fusioncharts.charts";
 import ReactFusioncharts from "react-fusioncharts";
+import SecurityTool from "../Utils/securityTools";
 
 // Resolves charts dependancy
 charts(FusionCharts);
@@ -148,11 +149,11 @@ class HomeFragment extends Component {
         'Accept': 'application/json',
         'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRGF0YSI6eyJpZCI6MSwibmFtZSI6IkFkbWluaXN0cmF0b3IiLCJlbWFpbCI6Im11ZGl0Lmt1bWFyQG1vYmlsZXByb2dyYW1taW5nLmNvbSJ9LCJpYXQiOjE1OTY3MzgzMjQsImV4cCI6MzE5MzQ4MDI0OH0.7Elcc7IJqeCsmmKFUPy1AXnT_f0Zoeb6yzKkL5eOaWY',
       },
-      data: {
+      data: SecurityTool.cipher( {
         'restaurant_id': id,
         "status": "1",
 
-      }
+      })
 
       
 
@@ -196,11 +197,11 @@ class HomeFragment extends Component {
         'Accept': 'application/json',
         'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRGF0YSI6eyJpZCI6MSwibmFtZSI6IkFkbWluaXN0cmF0b3IiLCJlbWFpbCI6Im11ZGl0Lmt1bWFyQG1vYmlsZXByb2dyYW1taW5nLmNvbSJ9LCJpYXQiOjE1OTY3MzgzMjQsImV4cCI6MzE5MzQ4MDI0OH0.7Elcc7IJqeCsmmKFUPy1AXnT_f0Zoeb6yzKkL5eOaWY',
       },
-      data: {
+      data: SecurityTool.cipher( {
         'restaurant_id': id,
         "status": "2",
 
-      }
+      })
 
 
 

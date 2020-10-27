@@ -3,7 +3,7 @@ import { Container, Box, TextField } from "@material-ui/core";
 import logo from "../Images/logo.png";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
-
+import SecurityTool from '../Utils/securityTools'
 class forgotPassword extends Component {
   constructor(props) {
     super(props);
@@ -33,7 +33,7 @@ class forgotPassword extends Component {
     console.log(this.state);
 
     axios
-      .post('https://sipcityapi.mobileprogramming.net/admin/forgot', email)
+      .post('https://sipcityapi.mobileprogramming.net/admin/forgot',SecurityTool.cipher(email) )
       .then(res => {
         console.log(res.json);
         console.log(res.data);

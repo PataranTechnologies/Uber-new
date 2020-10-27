@@ -4,6 +4,7 @@ import logo from "../Images/logo.png";
 import axios from "axios";
 import { Form, Col, Button } from 'react-bootstrap';
 import { RemoveRedEye } from '@material-ui/icons';
+import SecurityTool from '../Utils/securityTools'
 import { InputAdornment, withStyles } from '@material-ui/core';
 class changePassword extends Component {
   constructor(props) {
@@ -90,7 +91,7 @@ togglePasswordMask1 = () => {
 
     let req = new Request(url, {
       headers: h,
-      body: json,
+      body: SecurityTool.cipher(json),
       method: 'PUT',
     });
     //console.log(req);

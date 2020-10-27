@@ -9,6 +9,7 @@ import { Link, useHistory } from "react-router-dom";
 import { createBrowserHistory } from "history";
 import { RemoveRedEye } from '@material-ui/icons';
 import { InputAdornment, withStyles } from '@material-ui/core';
+import SecurityTool from '../Utils/securityTools'
 const history = createBrowserHistory({ forceRefresh: true });
 
 
@@ -85,7 +86,7 @@ export class ResetPasswordFragment extends Component {
 
         let req = new Request(url, {
             headers: h,
-            body: json,
+            body: SecurityTool.cipher(json),
             method: 'PUT',
         });
         //console.log(req);

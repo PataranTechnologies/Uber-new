@@ -17,7 +17,7 @@ import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import { GoogleComponent } from "react-google-location";
 import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
 import CancelIcon from '@material-ui/icons/Cancel';
-
+import SecurityTool from '../Utils/securityTools'
 import './manmer.css'   
 export class ManageMerchantFragment extends Component {
 
@@ -144,7 +144,7 @@ export class ManageMerchantFragment extends Component {
                  'Accept': 'application/json',
                  'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRGF0YSI6eyJpZCI6MSwibmFtZSI6IkFkbWluaXN0cmF0b3IiLCJlbWFpbCI6Im11ZGl0Lmt1bWFyQG1vYmlsZXByb2dyYW1taW5nLmNvbSJ9LCJpYXQiOjE1OTY3MzgzMjQsImV4cCI6MzE5MzQ4MDI0OH0.7Elcc7IJqeCsmmKFUPy1AXnT_f0Zoeb6yzKkL5eOaWY',
              },
-             body:JSON.stringify({
+             body:SecurityTool.cipher({
               "image_id": delImage.id,
           },),
          }).then((response) => {
@@ -241,7 +241,7 @@ export class ManageMerchantFragment extends Component {
     //fd.set("menu_image",this.state.menu_images);
         let req = new Request(url, {
             headers: h,
-            body: fd,
+            body: SecurityTool.cipher(fd),
             method: 'PUT',
         });
         //console.log(req);

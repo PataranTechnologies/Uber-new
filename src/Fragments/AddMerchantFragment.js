@@ -19,7 +19,7 @@ import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
 import { GoogleComponent } from "react-google-location";
 import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
 import CancelIcon from '@material-ui/icons/Cancel';
-
+import SecurityTool from '../Utils/securityTools'
 const AddMerchantFragment = (props) => {
   const [state, setState] = useState({
     restaurant_name: '',
@@ -352,7 +352,7 @@ console.log(fd.get("menu_image"))
    // h.append('Content-Type', 'multipart/form-data');
     let req = new Request(url, {
       headers: h,
-      body: fd,
+      body: SecurityTool.cipher(fd),
       method: 'POST',
     });
     //console.log(req);
