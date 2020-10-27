@@ -201,18 +201,21 @@ const AddMerchantFragment = (props) => {
    if(/^\d+$/.test(state.pincode)==false)
    {
     setErrObj({...errObj,pincode:"pincode Should containes only digits"})
+    alert("pincode Should containes only digits");
     valid=false;
     
    }
     if(state.mobile.length>10 || state.mobile.length<10)
     {
     setErrObj({...errObj,mobile:"Length Of phone Number Should be Exactly 10"})
+    alert("Length Of phone Number Should be Exactly 10");
     valid=false;
     }
 
     if(/^\d+$/.test(state.mobile)==false)
    {
     setErrObj({...errObj,mobile:"phone Number Should containes only digits"})
+    alert("phone Number Should containes only digits");
     valid=false;
     
    }
@@ -236,7 +239,7 @@ return valid
 
     setIsError(false)
 
-    alert("hello");
+  
 console.log(state)
 /*
      let restaurant_name = state.restaurant_name
