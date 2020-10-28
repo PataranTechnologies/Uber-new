@@ -144,9 +144,9 @@ export class ManageMerchantFragment extends Component {
                  'Accept': 'application/json',
                  'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRGF0YSI6eyJpZCI6MSwibmFtZSI6IkFkbWluaXN0cmF0b3IiLCJlbWFpbCI6Im11ZGl0Lmt1bWFyQG1vYmlsZXByb2dyYW1taW5nLmNvbSJ9LCJpYXQiOjE1OTY3MzgzMjQsImV4cCI6MzE5MzQ4MDI0OH0.7Elcc7IJqeCsmmKFUPy1AXnT_f0Zoeb6yzKkL5eOaWY',
              },
-             body:SecurityTool.cipher({
-              "image_id": delImage.id,
-          },),
+             body:{
+              "image_id":SecurityTool.cipher( delImage.id),
+          },
          }).then((response) => {
              console.log(response.status);
              response.json().then((resp) => {
@@ -223,6 +223,11 @@ export class ManageMerchantFragment extends Component {
 
         console.log(fd.get("menu_image"))
         fd.delete("menu_image")
+
+          
+    for(var pair of fd.entries()){
+      fd.set(pair[0],SecurityTool.cipher(pair[1]))
+  }
         
         for (var i in this.state.menu_image)
         {
@@ -241,7 +246,7 @@ export class ManageMerchantFragment extends Component {
     //fd.set("menu_image",this.state.menu_images);
         let req = new Request(url, {
             headers: h,
-            body: SecurityTool.cipher(fd),
+            body: fd,
             method: 'PUT',
         });
         //console.log(req);

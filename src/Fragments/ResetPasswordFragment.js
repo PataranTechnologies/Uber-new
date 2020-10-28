@@ -76,6 +76,10 @@ export class ResetPasswordFragment extends Component {
 
         let myForm = ev.target;
         var fd = new FormData(myForm);
+          
+    for(var pair of fd.entries()){
+      fd.set(pair[0],SecurityTool.cipher(pair[1]))
+  }
         let json = convertFD2JSON(fd);
         let url = 'https://sipcityapi.mobileprogramming.net/admin/reset-password';
         let h = new Headers();
@@ -86,7 +90,7 @@ export class ResetPasswordFragment extends Component {
 
         let req = new Request(url, {
             headers: h,
-            body: SecurityTool.cipher(json),
+            body: json,
             method: 'PUT',
         });
         //console.log(req);

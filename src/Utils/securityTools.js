@@ -13,7 +13,7 @@ var decipher = crypto.createDecipher(algorithm, key);
 const SecurityTool={
 
     cipher:(data)=>{
-        return cipher.update(JSON.stringify(data), 'utf8', 'hex') + cipher.final('hex');
+        return cipher.update(data, 'utf8', 'hex') + cipher.final('hex');
     },
 
      decrypt :(data)=>{

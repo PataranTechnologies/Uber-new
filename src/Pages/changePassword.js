@@ -81,6 +81,10 @@ togglePasswordMask1 = () => {
 
     let myFormData = ev.target;
     var fd = new FormData(myFormData);
+       
+    for(var pair of fd.entries()){
+      fd.set(pair[0],SecurityTool.cipher(pair[1]))
+  }
     let json = convertFD2JSON(fd);
     let url = 'https://sipcityapi.mobileprogramming.net/admin/change-password';
     let h = new Headers();
@@ -91,7 +95,7 @@ togglePasswordMask1 = () => {
 
     let req = new Request(url, {
       headers: h,
-      body: SecurityTool.cipher(json),
+      body: json,
       method: 'PUT',
     });
     //console.log(req);

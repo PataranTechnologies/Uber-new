@@ -28,12 +28,13 @@ class forgotPassword extends Component {
     }
 
     const email = {
-      email: this.state.email
+
+      email: SecurityTool.cipher(this.state.email)
     }
     console.log(this.state);
 
     axios
-      .post('https://sipcityapi.mobileprogramming.net/admin/forgot',SecurityTool.cipher(email) )
+      .post('https://sipcityapi.mobileprogramming.net/admin/forgot',email)
       .then(res => {
         console.log(res.json);
         console.log(res.data);

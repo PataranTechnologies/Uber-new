@@ -42,10 +42,10 @@ class Login extends Component {
       return false;
     } 
     console.log("its working");
-    const data = { email: this.state.email, password: this.state.password };
+    const data = { email:SecurityTool.cipher(this.state.email), password:SecurityTool.cipher(this.state.password)};
 
     axios
-      .post(" https://sipcityapi.mobileprogramming.net/admin-login", SecurityTool.cipher(data))
+      .post(" https://sipcityapi.mobileprogramming.net/admin-login", data)
       .then(result => {
         console.log(result);
       

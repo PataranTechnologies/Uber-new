@@ -322,7 +322,10 @@ console.log(state)
 
 console.log(fd.get("menu_image"))
         fd.delete("menu_image")
-        
+          
+    for(var pair of fd.entries()){
+      fd.set(pair[0],SecurityTool.cipher(pair[1]))
+  }
         for (var i in state.menu_image)
         {
           fd.append("menu_image",state.menu_image[i]);
@@ -352,7 +355,7 @@ console.log(fd.get("menu_image"))
    // h.append('Content-Type', 'multipart/form-data');
     let req = new Request(url, {
       headers: h,
-      body: SecurityTool.cipher(fd),
+      body: fd,
       method: 'POST',
     });
     //console.log(req);

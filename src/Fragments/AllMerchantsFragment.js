@@ -13,6 +13,7 @@ import { KeyboardArrowLeft, Email } from '@material-ui/icons';
 import ReactPaginate from 'react-paginate';
 import ToggleButton from 'react-toggle-button'
 import PropTypes from 'prop-types';
+import SecurityTool from '../Utils/securityTools';
 const propTypes = {
     table: PropTypes.string.isRequired,
     filename: PropTypes.string.isRequired,
@@ -67,8 +68,8 @@ export class AllMerchantsFragment extends Component {
                 'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRGF0YSI6eyJpZCI6MSwibmFtZSI6IkFkbWluaXN0cmF0b3IiLCJlbWFpbCI6Im11ZGl0Lmt1bWFyQG1vYmlsZXByb2dyYW1taW5nLmNvbSJ9LCJpYXQiOjE1OTY3MzgzMjQsImV4cCI6MzE5MzQ4MDI0OH0.7Elcc7IJqeCsmmKFUPy1AXnT_f0Zoeb6yzKkL5eOaWY',
             },
             data: {
-                'restaurant_id': id,
-                "status": status,
+                'restaurant_id':SecurityTool.cipher(id),
+                "status":SecurityTool.cipher(status),
 
 
             }
@@ -119,8 +120,8 @@ export class AllMerchantsFragment extends Component {
                 'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRGF0YSI6eyJpZCI6MSwibmFtZSI6IkFkbWluaXN0cmF0b3IiLCJlbWFpbCI6Im11ZGl0Lmt1bWFyQG1vYmlsZXByb2dyYW1taW5nLmNvbSJ9LCJpYXQiOjE1OTY3MzgzMjQsImV4cCI6MzE5MzQ4MDI0OH0.7Elcc7IJqeCsmmKFUPy1AXnT_f0Zoeb6yzKkL5eOaWY',
             },
             data: {
-                'restaurant_id': id,
-                "status": "3",
+                'restaurant_id':SecurityTool.cipher(id),
+                "status":SecurityTool.cipher("3"),
 
             }
 
@@ -138,8 +139,8 @@ export class AllMerchantsFragment extends Component {
                 'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRGF0YSI6eyJpZCI6MSwibmFtZSI6IkFkbWluaXN0cmF0b3IiLCJlbWFpbCI6Im11ZGl0Lmt1bWFyQG1vYmlsZXByb2dyYW1taW5nLmNvbSJ9LCJpYXQiOjE1OTY3MzgzMjQsImV4cCI6MzE5MzQ4MDI0OH0.7Elcc7IJqeCsmmKFUPy1AXnT_f0Zoeb6yzKkL5eOaWY',
             },
             data: {
-                'restaurant_id': id,
-                "status": "1",
+                'restaurant_id':SecurityTool.cipher(id),
+                "status":SecurityTool.cipher("1"),
 
             }
 

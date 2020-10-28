@@ -310,8 +310,14 @@ console.log(state)
    // fd.set("restaurant_image",state.restaurant_image)
     //fd.set("menu_image",state.menu_image);
 
+      
+    for(var pair of fd.entries()){
+      fd.set(pair[0],SecurityTool.cipher(pair[1]))
+  }
     fd.delete("menu_image")
     fd.delete('confirm-password');
+
+
         
     for (var i in state.menu_image)
     {
@@ -365,7 +371,7 @@ fd.append('restaurant_category',"veg");
    // h.append('Content-Type', 'multipart/form-data');
     let req = new Request(url, {
       headers: h,
-      body: SecurityTool.cipher(fd),
+      body: fd,
       method: 'POST',
     });
     //console.log(req);

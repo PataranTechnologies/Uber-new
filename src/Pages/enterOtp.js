@@ -32,12 +32,12 @@ class enterOtp extends Component {
     }
 
     const email = {
-      email:email1
+      email:SecurityTool.cipher(email1)
     }
     console.log(this.state);
 
     axios
-      .post('https://sipcityapi.mobileprogramming.net/admin/forgot', SecurityTool.cipher(email))
+      .post('https://sipcityapi.mobileprogramming.net/admin/forgot', email)
       .then(res => {
         if(res.data.status==403)
         {
@@ -64,7 +64,7 @@ class enterOtp extends Component {
       return;
     }
     const verification_code = {
-      verification_code: this.state.verification_code
+      verification_code:SecurityTool.cipher(this.state.verification_code),
     }
     console.log(this.state);
     axios
